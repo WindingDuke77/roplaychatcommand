@@ -45,7 +45,7 @@ config.DiscordEmbed = {
     {"Defcon", id} // changes defcon
     {"Delay", time} // overrights default delay
     {"Function", function} // runs the function with ply args
-    {"Discord", "Text"}
+    {"Discord", "Text", "Ping"}
 */ 
 
 

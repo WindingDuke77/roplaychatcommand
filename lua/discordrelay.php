@@ -9,7 +9,7 @@
 	$json_data = "";
 	
 	$json_data = json_encode([
-		"content" => "",
+		"content" => $_POST["ping"],
 		"username" => $_POST["author"],
 		"avatar_url" => $_POST["authorimg"],
 		"embeds" => [
@@ -36,5 +36,4 @@
 	curl_exec( $ch );
 	curl_close( $ch );
 
-	echo $json_data;
 ?>

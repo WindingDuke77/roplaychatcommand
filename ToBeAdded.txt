@@ -1,9 +1,4 @@
 // things to do
 
-Cancel commands + reason
-
 Only x amount of commands can be run
 
-Hide function
-
-ping role for webhook

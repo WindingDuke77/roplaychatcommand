@@ -29,7 +29,8 @@ config.Replacements = { // when using Say or PSay these will be replace by the r
 }
 
 config.DiscordEmbed = {
-    webhook = "", // Discord Webhook URL
+    relay = "https://www.frostfirehosting.net/php/discordrelay.php", // Do not touch unless you are hosting your own relay
+    webhook = "https://ptb.discord.com/api/webhooks/1002139859613405295/Go7Qb5zr_jyUQC_eBsz8F-y4zjGKErcKoPkVuvHk6tZEvrLsiCitNbm8PNlSZnnelQYO", // Discord Webhook URL
     title = "Roleplay ChatCommands", // Title of the embed
     color = "#FFA500", // Color of the embed, in Hex
     author = "RPCC", // Author of the embed
@@ -53,6 +54,7 @@ config.Commands["Example"] = {
     delay = 1, // Delay between each chat message (in seconds)
     cooldown = 60, // Cooldown between use of command (in seconds)
     color  = Color(3, 0,208), // Color of chat message
+    hide = true, // Hide the command on the Datapad
     allowedCatergory = { // Categories that can use this command // optional
         ["Civillian"] = true, 
     },
@@ -63,7 +65,7 @@ config.Commands["Example"] = {
         ["JobName"] = true, 
     },
     map = { // Maps that this command is enabled // optional
-        [game.GetMap()] = true,
+        ["rp_downtown_tits_v1"] = true,
     },
     steps = {
         {"Say", "Hello plyName"},
@@ -71,7 +73,6 @@ config.Commands["Example"] = {
         {"Delay", 5},
         {"Door", 190, "Open"},
         {"Say", "You are a plyJob"},
-        {"Discord", "This a test"}
     }
 }
 

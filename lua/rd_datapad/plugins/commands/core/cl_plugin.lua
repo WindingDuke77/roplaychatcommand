@@ -36,6 +36,8 @@ function OBJ:DoClick(ply, frame, PAGE)
                 end
             end
 
+            if hide == true then continue end
+
 
             local LABEL = self:Add("DButton")
             LABEL:Dock(TOP)

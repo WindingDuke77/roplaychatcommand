@@ -12,7 +12,7 @@ function ulx.forcestop( calling_ply, reason )
     rpcc.FullStop = true
     if reason then
         for k, v in pairs(player.GetAll()) do
-            v:ChatPrint(reason)
+            rpcc.SendToClient(v, Color(255,0,0), "A staff member has stopped the Command with the following reason: " .. reason)
         end
     end
 end

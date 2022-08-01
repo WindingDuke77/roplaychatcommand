@@ -9,12 +9,7 @@ function plugin.run(ply, commandObj, value1, value2)
 
     for k, v in pairs(player.GetAll()) do
 
-
-        if DarkRP then
-            DarkRP.talkToPerson(v, commandObj.color, value1)
-        else
-            v:ChatPrint(value1)
-        end
+        rpcc.SendToClient(v, commandObj.color, value1)
 
     end
 

@@ -1,5 +1,6 @@
 // This Addon was created by:
-// Bob Bobington#2947
+// Neural Studios
+// https://discord.gg/kp3AXXdEmQ
 //
 // any questions, please contact me
 
@@ -25,6 +26,7 @@ local function LoadAllFiles(dir)
     for k, v in pairs( dirs ) do
         if string.find(v, "module") then return end
         if string.find(v, "plugins") then return end
+        if string.find(v, "commandpacks") then return end
 
         LoadAllFiles( dir .. "/" .. v )
     end

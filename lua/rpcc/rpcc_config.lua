@@ -1,16 +1,14 @@
 rpcc = rpcc or {}
 rpcc.config = rpcc.config or {}
 rpcc.config.Commands = rpcc.config.Commands or {}
-
 local config = rpcc.config
-
 // Do not touch above this line
+
 config.preflix = "/"
 config.Debug = true  // Set to true to enable debug mode and disable cooldown
 
 config.bypassCatergory = { // allowes certain categories of jobs to bypass the restrictions
-    ["Administration"] = true ,
-
+    ["Administration"] = true,
 }
 
 config.bypassRank = { // allowes certain ranks to bypass the restrictions
@@ -18,20 +16,24 @@ config.bypassRank = { // allowes certain ranks to bypass the restrictions
     ["Head-Of-Staff"] = true,
 }
 
-
 config.Replacements = { // when using Say or PSay these will be replace by the return string
     ["plyName"] = function (ply) // [string That will be replaced] = function (ply) // return string // end
         return ply:Nick()
     end,
     ["plyJob"] = function (ply)
+        if not DarkRP then return "Not Installed" end
         return ply:getJobTable().name
     end
 }
 
+config.CommandPacks = { // The CommandPacks you wish to enabled
+    ["starwars_commands"] = false,
+}
+
 config.DiscordEmbed = {
-    relay = "https://www.frostfirehosting.net/php/discordrelay.php", // Do not touch unless you are hosting your own relay
-    webhook = "https://ptb.discord.com/api/webhooks/1002139859613405295/Go7Qb5zr_jyUQC_eBsz8F-y4zjGKErcKoPkVuvHk6tZEvrLsiCitNbm8PNlSZnnelQYO", // Discord Webhook URL
-    title = "Roleplay ChatCommands", // Title of the embed
+    relay = "https://neuralstudios.co.uk/php/discordrelay.php", // Do not touch unless you are hosting your own relay
+    webhook = "", // Discord Webhook URL
+    title = "RP Chat Commands", // Title of the embed
     color = "#FFA500", // Color of the embed, in Hex
     author = "RPCC", // Author of the embed
     authorimg = "", // Author image of the embed
@@ -49,8 +51,7 @@ config.DiscordEmbed = {
     {"Discord", "Text", "Ping"}
 */ 
 
-
-config.Commands["Example"] = {
+config.Commands["Example"] = { // name of command
     delay = 1, // Delay between each chat message (in seconds)
     cooldown = 60, // Cooldown between use of command (in seconds)
     color  = Color(3, 0,208), // Color of chat message
@@ -62,7 +63,7 @@ config.Commands["Example"] = {
         ["superadmin"] = true,
     },
     allowedJob = { // Jobs that can use this command // optional
-        ["JobName"] = true, 
+        ["Hobo"] = true, 
     },
     map = { // Maps that this command is enabled // optional
         ["rp_downtown_tits_v1"] = true,

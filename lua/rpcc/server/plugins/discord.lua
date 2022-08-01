@@ -16,10 +16,7 @@ function plugin.run(ply, commandObj, value1, value2)
         ["bar_color"] = rpcc.config.DiscordEmbed.color,
         ["description"] = value1,
         ["ping"] = value2 or ""
-    },
-    function (body)
-        print(body)    
-    end)
+    })
 end
 
 return plugin

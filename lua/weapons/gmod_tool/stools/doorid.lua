@@ -31,10 +31,6 @@ function TOOL:LeftClick(trace)
 	if SERVER then return end
 	local ply = LocalPlayer()
 	
-
-
-
-
 	if cooldown > CurTime() then return end
 	cooldown = CurTime() + 1
 
@@ -42,22 +38,14 @@ function TOOL:LeftClick(trace)
 
 	if not IsValid(ent) then return end
 
-	//if ent:GetClass() == "prop_door_rotating" or ent:GetClass() == "func_door"  or ent:GetClass() == "func_button" or ent:GetClass() == "func_door_rotating" or ent:GetClass() == "class C_BaseEntity" or ent:GetClass() == "func_brush"or ent:GetClass() == "class C_BaseEntity" or ent:GetClass() == "prop_dynamic"  then 
+	local id = tostring(ent)
 
+	id = string.Split(id, "[")[2]
 
-		local id = tostring(ent)
+	id = string.Split(id, "]")[1]
 
-		id = string.Split(id, "[")[2]
-
-		id = string.Split(id, "]")[1]
-
-		LocalPlayer():ChatPrint(ent:GetClass() .. ": "  .. id)
-		SetClipboardText(id)
-
-	//end
-	 
-
-
+	LocalPlayer():ChatPrint(ent:GetClass() .. ": "  .. id)
+	SetClipboardText(id)
 end
 
 

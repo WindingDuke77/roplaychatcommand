@@ -21,7 +21,7 @@ function OBJ:DoClick(ply, frame, PAGE)
             
             if commandObj.map and not commandObj.map[game.GetMap()] then continue end
 
-            if not rpcc.config.bypassCatergory[ply:getJobTable().category] and not rpcc.config.bypassRank[ply:GetUserGroup()] then 
+            if not rpcc.config.bypassRank[ply:GetUserGroup()] and (DarkRP and not rpcc.config.bypassCatergory[ply:getJobTable().category]) then 
                 if DarkRP then
                     if commandObj.allowedCatergory and not commandObj.allowedCatergory[ply:getJobTable().category] then
                         continue

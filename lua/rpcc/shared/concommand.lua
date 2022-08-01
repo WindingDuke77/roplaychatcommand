@@ -22,24 +22,21 @@ function (cmd, stringargs)
     for k,v in pairs(rpcc.config.Commands) do
         local commandObj = v
         
-        if commandObj.map and not commandObj.map[game.GetMap()] then return end
+        if commandObj.map and not commandObj.map[game.GetMap()] then continue end
 
-        if not rpcc.config.bypassCatergory[ply:getJobTable().category] and not rpcc.config.bypassRank[ply:GetUserGroup()] then 
+        if not rpcc.config.bypassRank[ply:GetUserGroup()] and (DarkRP and not rpcc.config.bypassCatergory[ply:getJobTable().category]) then 
             if DarkRP then
-                if #commandObj.allowedCatergory > 0 and not commandObj.allowedCatergory[ply:getJobTable().category] then
-                    DarkRP.notify(ply, 1, 4, "You are not Allowed to use this Command.")
-                    return ""
+                if commandObj.allowedCatergory and not commandObj.allowedCatergory[ply:getJobTable().category] then
+                    continue
                 end
 
-                if #commandObj.allowedJob > 0 and not commandObj.allowedJob[ply:getJobTable().name] then 
-                    DarkRP.notify(ply, 1, 4, "You are not Allowed to use this Command.")
-                    return ""
+                if commandObj.allowedJob and not commandObj.allowedJob[ply:getJobTable().name] then 
+                    continue
                 end
             end
 
-            if #commandObj.allowedRank > 0 and not commandObj.allowedRank[ply:GetUserGroup()] then 
-                DarkRP.notify(ply, 1, 4, "You are not Allowed to use this Command.")
-                return ""
+            if commandObj.allowedRank and not commandObj.allowedRank[ply:GetUserGroup()] then 
+                continue
             end
         end
 

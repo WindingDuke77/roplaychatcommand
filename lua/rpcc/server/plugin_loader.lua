@@ -13,5 +13,3 @@ timer.Simple(5, function ()
         end
     end
 end)
-
-

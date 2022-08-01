@@ -3,6 +3,7 @@ rpcc.config = rpcc.config or {}
 rpcc.config.Commands = rpcc.config.Commands or {}
 rpcc.config.plugins = rpcc.config.plugins or {}
 rpcc.cooldown = rpcc.cooldown or {}
+rpcc.RunningCommands = rpcc.RunningCommands or {}
 
 util.AddNetworkString("roplaycommands.send")
 
@@ -22,21 +23,21 @@ function rpcc.FindCommand(ply, command)
     
     if commandObj.map and not commandObj.map[game.GetMap()] then return end
 
-    if not rpcc.config.bypassCatergory[ply:getJobTable().category] and not rpcc.config.bypassRank[ply:GetUserGroup()] then 
+    if not rpcc.config.bypassRank[ply:GetUserGroup()] and (DarkRP and not rpcc.config.bypassCatergory[ply:getJobTable().category]) then 
         if DarkRP then
             if commandObj.allowedCatergory and not commandObj.allowedCatergory[ply:getJobTable().category] then
-                DarkRP.notify(ply, 1, 4, "You are not Allowed to use this Command. [Category]")
+                rpcc.notify(ply, 1, 4, "You are not Allowed to use this Command. [Category]")
                 return ""
             end
 
             if commandObj.allowedJob and not commandObj.allowedJob[ply:getJobTable().name] then 
-                DarkRP.notify(ply, 1, 4, "You are not Allowed to use this Command. [JOB]")
+                rpcc.notify(ply, 1, 4, "You are not Allowed to use this Command. [JOB]")
                 return ""
             end
         end
 
         if commandObj.allowedRank and not commandObj.allowedRank[ply:GetUserGroup()] then 
-            DarkRP.notify(ply, 1, 4, "You are not Allowed to use this Command. [RANK]")
+            rpcc.notify(ply, 1, 4, "You are not Allowed to use this Command. [RANK]")
             return ""
         end
     end
@@ -47,14 +48,13 @@ function rpcc.FindCommand(ply, command)
     end
 
     if not rpcc.config.Debug then
-        if rpcc.cooldown[command] and rpcc.cooldown[command] >= CurTime() then
-            if DarkRP then
-                DarkRP.notify(ply, 1, 4, "You are on cooldown for this command.")
-                
-            else
-                ply:ChatPrint("You are on cooldown for this command.")
-            end
+        if rpcc.RunningCommands[command] then
+            rpcc.notify(ply, 1, 4, "This Command is already Running.")
+            return ""
+        end
 
+        if rpcc.cooldown[command] and rpcc.cooldown[command] >= CurTime() then
+            rpcc.notify(ply, 1, 4, "You are on cooldown for this command.")
             return ""
         end 
     end
@@ -68,8 +68,6 @@ function rpcc.FindCommand(ply, command)
 
 
 end
-
-
 
 function rpcc.Step(ply, commandObj, command)
     local step = commandObj.steps[commandObj.stepId]

@@ -18,6 +18,7 @@ command.new("ForceStop")
                 rpcc.SendToClient(v, Color(255,0,0), "A staff member has stopped the Command with the following reason: " .. reason)
             end
         end
+        rpcc.MODULE:Log("{1} ran FullStop.", GAS.Logging:FormatPlayer(ply))
 	end)
 :End()
 

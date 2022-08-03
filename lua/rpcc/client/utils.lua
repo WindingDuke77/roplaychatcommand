@@ -1,3 +1,11 @@
+rpcc = rpcc or {}
+rpcc.config = rpcc.config or {}
+rpcc.config.Commands = rpcc.config.Commands or {}
+local config = rpcc.config
+// Do not touch above this line
+
+
+
 local notificationSound = "buttons/lightswitch2.wav"
 local function DisplayNotify(msg)
     local txt = msg:ReadString()
@@ -12,4 +20,9 @@ net.Receive("rpcc.ChatSend", function(len)
     local color = net.ReadColor()
 
     chat.AddText( color, msg )
+end)
+
+net.Receive("rpcc.ClientConfig", function(len)
+    local config = net.ReadTable()
+    rpcc.config = config
 end)

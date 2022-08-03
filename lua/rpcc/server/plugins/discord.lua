@@ -4,9 +4,8 @@ plugin.name = "Discord"
 
 function plugin.run(ply, commandObj, value1, value2)
 
-    for k, v in pairs(rpcc.config.Replacements) do
-        value1 =  string.Replace(value1, k , v(ply))
-    end
+    value1 = rpcc.StringReplacement(value1, ply)
+
     http.Post(rpcc.config.DiscordEmbed.relay,
     {
         ["url"] = rpcc.config.DiscordEmbed.webhook,

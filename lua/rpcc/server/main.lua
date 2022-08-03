@@ -8,7 +8,7 @@ rpcc.RunningCommands = rpcc.RunningCommands or {}
 util.AddNetworkString("roplaycommands.send")
 
 
-
+// Check if Player is trying to run a Command
 hook.Add("PlayerSay", "rpcc.PlayerSay", function (ply, message)
     if not string.StartWith(message, rpcc.config.preflix) then return end
     local command = string.sub(message, string.len(rpcc.config.preflix) + 1)
@@ -21,32 +21,17 @@ function rpcc.FindCommand(ply, command)
     local commandObj = rpcc.config.Commands[command]
     if not commandObj then return end
     
-    if commandObj.map and not commandObj.map[game.GetMap()] then return end
-
-    if not rpcc.config.bypassRank[ply:GetUserGroup()] and (DarkRP and not rpcc.config.bypassCatergory[ply:getJobTable().category]) then 
-        if DarkRP then
-            if commandObj.allowedCatergory and not commandObj.allowedCatergory[ply:getJobTable().category] then
-                rpcc.notify(ply, 1, 4, "You are not Allowed to use this Command. [Category]")
-                return ""
-            end
-
-            if commandObj.allowedJob and not commandObj.allowedJob[ply:getJobTable().name] then 
-                rpcc.notify(ply, 1, 4, "You are not Allowed to use this Command. [JOB]")
-                return ""
-            end
-        end
-
-        if commandObj.allowedRank and not commandObj.allowedRank[ply:GetUserGroup()] then 
-            rpcc.notify(ply, 1, 4, "You are not Allowed to use this Command. [RANK]")
-            return ""
-        end
+    // Check if Player has Permission to run Command
+    if not rpcc.PlyCheck(commandObj, ply) then 
+        return "" 
     end
 
+    // Check if Command is Valid
     if not commandObj.steps then
-        rpcc.convertOld(command, commandObj)
-        commandObj = rpcc.config.Commands[command]
+        return print("Command " .. command .. " has no steps")
     end
 
+    // if Debug is enabled, no cooldown is applied
     if not rpcc.config.Debug then
         if rpcc.RunningCommands[command] then
             rpcc.notify(ply, 1, 4, "This Command is already Running.")
@@ -59,10 +44,14 @@ function rpcc.FindCommand(ply, command)
         end 
     end
 
+    // Hook is Called with the player who called the command and the command name
     hook.Call("rpcc.Command.run", nil, ply, command)
 
 
+    // set the Steps of the Command
     commandObj.stepId = 1
+
+    // Start going through the Steps
     rpcc.Step(ply, commandObj, command)
     return ""
 
@@ -70,22 +59,28 @@ function rpcc.FindCommand(ply, command)
 end
 
 function rpcc.Step(ply, commandObj, command)
+    // get current Step
     local step = commandObj.steps[commandObj.stepId]
 
     if not step then return end
 
     local plugin = rpcc.config.plugins[step[1]]
 
+    // check if Command need to stop
     if rpcc.FullStop then 
         rpcc.FullStop = false
         return
     end
 
+    // Get the Plugin the wants to run the Command
     plugin.run(ply, commandObj, step[2], step[3])
 
+    // Set the cooldown of the Command
     rpcc.cooldown[command] = CurTime() + commandObj.cooldown
+
     commandObj.stepId = commandObj.stepId + 1
 
+    // If the next step is Delay, it will override the default delay
     if  commandObj.steps[commandObj.stepId] and commandObj.steps[commandObj.stepId][1] == "Delay" then
         timer.Simple(commandObj.steps[commandObj.stepId][2], function()
             commandObj.stepId = commandObj.stepId + 1
@@ -101,30 +96,8 @@ end
 
 util.AddNetworkString("roplaycommands.send")
 
+// Allows the Player to send a Command via netString
 net.Receive("roplaycommands.send", function (len, ply)
     local command = net.ReadString()
     rpcc.FindCommand(ply, command)
 end)
-
-function rpcc.convertOld(name, commandObj)
-    if commandObj.steps then return end
-
-    commandObj.steps = {}
-    if commandObj.messages then
-        for k, v in pairs(commandObj.messages) do
-            table.insert(commandObj.steps, {"Say", v})
-        end
-    end
-
-    if commandObj.doors then
-       for k, v in pairs(commandObj.doors) do
-            table.insert(commandObj.steps, {"Door", v, commandObj.type})
-        end 
-    end
-
-    if commandObj.defcon then
-        table.insert(commandObj.steps, {"Defcon", commandObj.defcon})
-    end
-
-    rpcc.config.Commands[name] = commandObj
-end

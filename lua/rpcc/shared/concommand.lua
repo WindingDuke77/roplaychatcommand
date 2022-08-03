@@ -12,32 +12,18 @@ concommand.Add("rpcc", function ( ply, cmd, args )
         net.SendToServer()
     end
 end,
-function (cmd, stringargs)
+function (cmd, stringargs) // AutoComplete Func
     if not CLIENT then return end
     
     local ply = LocalPlayer()
 
     local allowedCommands = {}
 
-    for k,v in pairs(rpcc.config.Commands) do
-        local commandObj = v
+    // loop through all commands and check if the user can use them
+    for k, commandObj in pairs(rpcc.config.Commands) do
         
-        if commandObj.map and not commandObj.map[game.GetMap()] then continue end
-
-        if not rpcc.config.bypassRank[ply:GetUserGroup()] and (DarkRP and not rpcc.config.bypassCatergory[ply:getJobTable().category]) then 
-            if DarkRP then
-                if commandObj.allowedCatergory and not commandObj.allowedCatergory[ply:getJobTable().category] then
-                    continue
-                end
-
-                if commandObj.allowedJob and not commandObj.allowedJob[ply:getJobTable().name] then 
-                    continue
-                end
-            end
-
-            if commandObj.allowedRank and not commandObj.allowedRank[ply:GetUserGroup()] then 
-                continue
-            end
+        if not rpcc.PlyCheck(commandObj, ply) then 
+            continue 
         end
 
         table.insert(allowedCommands, "rpcc " .. k)

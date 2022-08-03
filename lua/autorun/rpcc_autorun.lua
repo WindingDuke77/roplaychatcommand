@@ -18,9 +18,7 @@ local function LoadAllFiles(dir)
             if CLIENT then include( dir .. "/" .. v ) end
             MsgC(Color(195,0,255), "[RP ChatCommands]: Added " .. v .. "\n")
         elseif string.find(dir, "rpcc") then
-            if SERVER then AddCSLuaFile( dir .. "/" .. v ) include( dir .. "/" .. v ) end
-            if CLIENT then include( dir .. "/" .. v ) end
-            MsgC(Color(195,0,255), "[RP ChatCommands]: Added " .. v .. "\n")
+            if SERVER then include( dir .. "/" .. v ) MsgC(Color(0,162,255), "[RP ChatCommands]: Added " .. v .. "\n") end
         end
     end
     for k, v in pairs( dirs ) do

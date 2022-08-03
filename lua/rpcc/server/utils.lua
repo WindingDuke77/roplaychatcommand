@@ -12,7 +12,7 @@ function rpcc.notify(ply, msgtype, len, msg)
         rcf:AddPlayer(v)
     end
 
-    umsg.Start("rpcc_Notify_Notify", rcf)
+    umsg.Start("rpcc_Notify", rcf)
         umsg.String(msg)
         umsg.Short(msgtype)
         umsg.Long(len)
@@ -33,3 +33,66 @@ function rpcc.SendToClient(ply, Color, Msg)
     net.Send(ply)
 end
     
+function rpcc.StringReplacement(string, ply)
+    for k, v in pairs(rpcc.config.Replacements) do
+        string =  string.Replace(string, k , v(ply))
+    end
+    return string
+end
+
+local ClientConfigCompare = {}
+
+// Turn the Default Config into Client Config // Removing any Private Configs
+function GetClientConfig()
+    local ClientConfig = {}
+    ClientConfig.Commands = {}
+    for k, v in pairs(rpcc.config.Commands) do
+        ClientConfig.Commands[k] = {
+            delay = v.delay,
+            cooldown = v.cooldown,
+            color  = v.color,
+            hide = v.hide,
+            allowedCatergory = v.allowedCatergory,
+            allowedRank = v.allowedRank,
+            allowedJob = v.allowedJob,
+            map = v.map,
+        }
+    end
+
+    ClientConfig.bypassCatergory = rpcc.config.bypassCatergory
+    ClientConfig.bypassRank = rpcc.config.bypassRank 
+
+    return ClientConfig
+end
+
+
+ClientConfigCompare = GetClientConfig()
+
+util.AddNetworkString("rpcc.ClientConfig")
+
+// Send the Client Config to the Client
+hook.Add("PlayerInitialSpawn", "rpcc.PlayerInitialSpawn", function(ply)
+    net.Start("rpcc.ClientConfig")
+        net.WriteTable(ClientConfigCompare)
+    net.Send(ply)
+end)
+
+local wait = 10
+local nextCheck = CurTime() + wait
+// Check if the Client Config is different then the Server Config 
+// If it is, then send the Client Config to the Client
+hook.Add("Think", "rpcc.Think", function ()
+    if nextCheck > CurTime() then return end
+
+    local ClientConfig = GetClientConfig()
+    if ClientConfig == ClientConfigCompare then
+        nextCheck = CurTime() + wait
+        return
+    end
+
+    ClientConfigCompare = ClientConfig
+    nextCheck = CurTime() + wait
+    net.Start("rpcc.ClientConfig")
+        net.WriteTable(ClientConfig)
+    net.Broadcast()
+end)

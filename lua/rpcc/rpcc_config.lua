@@ -5,7 +5,7 @@ local config = rpcc.config
 // Do not touch above this line
 
 config.preflix = "/"
-config.Debug = true  // Set to true to enable debug mode and disable cooldown
+config.Debug = false  // Set to true to enable debug mode and disable cooldown
 
 config.bypassCatergory = { // allowes certain categories of jobs to bypass the restrictions
     ["Administration"] = true,
@@ -27,7 +27,7 @@ config.Replacements = { // when using Say or PSay these will be replace by the r
 }
 
 config.CommandPacks = { // The CommandPacks you wish to enabled
-    ["starwars_commands"] = false,
+    ["starwars_commands"] = true,
 }
 
 config.DiscordEmbed = {

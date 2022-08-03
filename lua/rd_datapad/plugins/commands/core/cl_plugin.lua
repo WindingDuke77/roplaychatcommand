@@ -14,26 +14,9 @@ function OBJ:DoClick(ply, frame, PAGE)
     SCROLL:Dock(FILL)
     SCROLL:DockMargin(w * 0.01, h * 0.01, w * 0.01, h * 0.01)
     SCROLL.Think = function(self)
-        for k, v in pairs(rpcc.config.Commands) do
-            local commandObj = v
-            
-
-            
-            if commandObj.map and not commandObj.map[game.GetMap()] then continue end
-
-            if not rpcc.config.bypassRank[ply:GetUserGroup()] and (DarkRP and not rpcc.config.bypassCatergory[ply:getJobTable().category]) then 
-                if DarkRP then
-                    if commandObj.allowedCatergory and not commandObj.allowedCatergory[ply:getJobTable().category] then
-                        continue
-                    end
-                    if commandObj.allowedJob and not commandObj.allowedJob[ply:getJobTable().name] then 
-                        continue
-                    end
-                end
-
-                if commandObj.allowedRank and not commandObj.allowedRank[ply:GetUserGroup()] then 
-                    continue
-                end
+        for k, commandObj in pairs(rpcc.config.Commands) do    
+            if not rpcc.PlyCheck(commandObj, LocalPlayer()) then 
+                continue 
             end
 
             if hide == true then continue end

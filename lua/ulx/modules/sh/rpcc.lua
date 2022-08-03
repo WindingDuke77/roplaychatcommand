@@ -4,7 +4,7 @@ local waittime = 60
 local lasttimeusage = -waittime
 function ulx.forcestop( calling_ply, reason )
 	if lasttimeusage + waittime > CurTime() then
-		ULib.tsayError( calling_ply, "I just told you what time it is! Please wait " .. waittime .. " seconds before using this command again", true )
+		ULib.tsayError( calling_ply, "Please wait " .. waittime .. " seconds before using this command again", true )
 		return
 	end
 
@@ -15,8 +15,9 @@ function ulx.forcestop( calling_ply, reason )
             rpcc.SendToClient(v, Color(255,0,0), "A staff member has stopped the Command with the following reason: " .. reason)
         end
     end
+    rpcc.MODULE:Log("{1} ran FullStop.", GAS.Logging:FormatPlayer(ply))
 end
 local forcestop = ulx.command( CATEGORY_NAME, "ulx fullstop", ulx.forcestop, "!fullstop" )
-forcestop:defaultAccess( ULib.ACCESS_ADMIN )
-forcestop:addParam{ type=ULib.cmds.StringArg, hint="reason", ULib.cmds.optional, ULib.cmds.takeRestOfLine, completes=ulx.common_kick_reasons }
+forcestop:defaultAccess( ULib.ACCESS_ADMIN )local forcestop = ulx.comman
+forcestop:addParam{ type=ULib.cmds.StringArg, hint="reason", ULib.cmds.optional }
 forcestop:help( "Stop the current command." )

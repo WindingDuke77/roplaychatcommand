@@ -56,6 +56,7 @@ function GetClientConfig()
             allowedRank = v.allowedRank,
             allowedJob = v.allowedJob,
             map = v.map,
+            name = v.name
         }
     end
 

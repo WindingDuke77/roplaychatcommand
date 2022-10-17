@@ -9,6 +9,4 @@ rpcc.MODULE:Setup(function()
 		rpcc.MODULE:Log("{1} ran {2} command.", GAS.Logging:FormatPlayer(ply), GAS.Logging:Highlight(command))
 	end)
 end)
-
-
 GAS.Logging:AddModule( rpcc.MODULE )

@@ -1,4 +1,0 @@
-// things to do
-
-Only x amount of commands can be run
-

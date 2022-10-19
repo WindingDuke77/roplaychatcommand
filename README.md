@@ -41,4 +41,5 @@ The only limit is your imagination.
 2. [Making a Command](https://youtu.be/lyAIqwQMMMU)
 
 # [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2872376047)
+# [Discord](https://discord.gg/MABm3uVxeZ)
 

@@ -1,6 +1,6 @@
 // This Addon was created by:
 // Neural Studios
-// https://discord.gg/kp3AXXdEmQ
+// https://discord.gg/MABm3uVxeZ
 //
 // any questions, please contact me
 

@@ -31,6 +31,8 @@ function rpcc.FindCommand(ply, command)
         return print("Command " .. command .. " has no steps")
     end
 
+    commandObj.key = command
+
     // if Debug is enabled, no cooldown is applied
     if not rpcc.config.Debug then
         if rpcc.RunningCommands[command] then

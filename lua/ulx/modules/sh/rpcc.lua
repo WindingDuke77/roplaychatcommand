@@ -18,6 +18,6 @@ function ulx.forcestop( calling_ply, reason )
     rpcc.MODULE:Log("{1} ran FullStop.", GAS.Logging:FormatPlayer(ply))
 end
 local forcestop = ulx.command( CATEGORY_NAME, "ulx fullstop", ulx.forcestop, "!fullstop" )
-forcestop:defaultAccess( ULib.ACCESS_ADMIN )local forcestop = ulx.comman
+forcestop:defaultAccess( ULib.ACCESS_ADMIN )
 forcestop:addParam{ type=ULib.cmds.StringArg, hint="reason", ULib.cmds.optional }
 forcestop:help( "Stop the current command." )

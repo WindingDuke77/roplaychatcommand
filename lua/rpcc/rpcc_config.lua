@@ -31,7 +31,7 @@ config.CommandPacks = { // The CommandPacks you wish to enabled
 }
 
 config.DiscordEmbed = {
-    relay = "https://neuralstudios.co.uk/php/discordrelay.php", // Do not touch unless you are hosting your own relay
+    relay = "https://neuralstudio.co.uk/php/discordrelay.php", // Do not touch unless you are hosting your own relay
     webhook = "", // Discord Webhook URL
     title = "RP Chat Commands", // Title of the embed
     color = "#FFA500", // Color of the embed, in Hex

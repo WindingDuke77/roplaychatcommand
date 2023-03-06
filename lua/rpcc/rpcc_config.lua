@@ -49,6 +49,10 @@ config.DiscordEmbed = {
     {"Delay", time} // overrights default delay
     {"Function", function} // runs the function with ply args
     {"Discord", "Text", "Ping"}
+    {"Sound", {
+        file = "sound.mp3",
+        volume = 75,
+    }, player / players / "all" }
 */ 
 
 config.Commands["Example"] = { // name of command

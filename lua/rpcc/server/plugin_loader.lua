@@ -10,9 +10,15 @@ timer.Simple(5, function ()
 
     for k, v in pairs( files ) do
         if ( v:sub( 1, 1 ) != "." ) then
-            local plugin = include( "rpcc/server/plugins/" .. v )
-            // add plugin to list
-            rpcc.config.plugins[ plugin.name ] = plugin
+            local success, res = pcall( function ( v )
+                local plugin = include( "rpcc/server/plugins/" .. v )
+                // add plugin to list
+                rpcc.config.plugins[ plugin.name ] = plugin
+                
+            end, v )
+            if ( !success ) then
+                print( "Error loading plugin '" .. v .. "': " .. res )
+            end
         end
     end
 end)

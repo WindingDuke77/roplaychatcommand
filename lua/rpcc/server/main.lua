@@ -75,7 +75,10 @@ function rpcc.Step(ply, commandObj, command)
     end
 
     // Get the Plugin the wants to run the Command
-    plugin.run(ply, commandObj, step[2], step[3])
+    local success, res = pcall(plugin.run, plugin, ply, commandObj, step[2], step[3])
+    if not success then
+        print("Error in Plugin " .. step[1] .. " in Command ".. command .. " on Step: ".. commandObj.stepId .. "\n Error: " .. res)
+    end
 
     // Set the cooldown of the Command
     rpcc.cooldown[command] = CurTime() + commandObj.cooldown

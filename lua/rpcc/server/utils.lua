@@ -71,10 +71,16 @@ ClientConfigCompare = GetClientConfig()
 
 util.AddNetworkString("rpcc.ClientConfig")
 
+local function compressTable(table)
+    local returnTable = util.Compress(util.TableToJSON(table))
+    return returnTable, #returnTable
+end
+
 // Send the Client Config to the Client
 hook.Add("PlayerInitialSpawn", "rpcc.PlayerInitialSpawn", function(ply)
     net.Start("rpcc.ClientConfig")
-        net.WriteTable(ClientConfigCompare)
+        net.WriteInt(compressTable(ClientConfigCompare)[2], 32)
+        net.WriteData(compressTable(ClientConfigCompare)[1])
     net.Send(ply)
 end)
 
@@ -94,6 +100,7 @@ hook.Add("Think", "rpcc.Think", function ()
     ClientConfigCompare = ClientConfig
     nextCheck = CurTime() + wait
     net.Start("rpcc.ClientConfig")
-        net.WriteTable(ClientConfig)
+        net.WriteInt(compressTable(ClientConfig)[2], 32)
+        net.WriteData(compressTable(ClientConfig)[1])
     net.Broadcast()
 end)

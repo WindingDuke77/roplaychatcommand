@@ -2,28 +2,10 @@
 -- Neural Studios
 -- https://discord.gg/MABm3uVxeZ
 --
--- !! any questions, please contact us
-local hashs = util.JSONToTable(file.Read("neuralstudio/hashs/rpcc_hashs.json", "DATA") or file.Read("rpcc_hashs.json", "LUA") or "{}") -- read the hashes from the file to do check for corruption
-local Enabled = false -- set to error checking on or off
 
 local function LoadAllFiles(dir)
     local files, dirs = file.Find( dir .. "/*", "LUA" )
     for k, v in pairs( files ) do
-        if SERVER and Enabled then 
-            if not string.find(v, "_config.lua") or not string.find(v, "_autorun.lua")  then   -- ignore config files
-                if string.find(v, "module") then continue end
-                if string.find(v, "plugins") then continue end
-                if string.find(v, "commandpacks") then continue end
-                local data = file.Read(dir .. "/" .. v, "LUA")
-                local hash = util.SHA256(data)
-                if hashs[dir .. "/" .. v] then
-                    if hashs[dir .. "/" .. v] != hash then
-                        MsgC(Color(255,0,0), "[RP ChatCommands]: File (" .. dir .. "/" .. v .. ") has been modified, please reinstall Vital Files\n")
-                    end
-                end
-            end
-        end
-
         if string.find(dir, "/client") then
             if SERVER then AddCSLuaFile( dir .. "/" .. v ) end
             if CLIENT then include( dir .. "/" .. v ) end

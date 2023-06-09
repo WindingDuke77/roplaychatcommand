@@ -23,6 +23,10 @@ net.Receive("rpcc.ChatSend", function(len)
 end)
 
 net.Receive("rpcc.ClientConfig", function(len)
-    local config = net.ReadTable()
+    local length = net.ReadInt(32)
+    local data = net.ReadData(length)
+
+    local config = util.JSONToTable(util.Decompress(data))
+
     rpcc.config = config
 end)

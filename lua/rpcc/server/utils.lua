@@ -1,3 +1,9 @@
+rpcc = rpcc or {}
+rpcc.config = rpcc.config or {}
+rpcc.config.Commands = rpcc.config.Commands or {}
+rpcc.config.plugins = rpcc.config.plugins or {}
+
+
 function rpcc.notify(ply, msgtype, len, msg)
     if not istable(ply) then
         if not IsValid(ply) then
@@ -73,7 +79,7 @@ util.AddNetworkString("rpcc.ClientConfig")
 
 local function compressTable(table)
     local returnTable = util.Compress(util.TableToJSON(table))
-    return returnTable, #returnTable
+    return returnTable, #returnTable or 0
 end
 
 // Send the Client Config to the Client

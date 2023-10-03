@@ -33,7 +33,7 @@ LoadAllFiles("rpcc")
 
 timer.Simple(15, function () // Add Commands to the RD_DataPad 
     if not RDV then return end
-    if not RDV.DEFCON then return end
+    if not RDV.DATAPAD then return end
     if SERVER then
         AddCSLuaFile("rd_datapad/plugins/commands/sh_plugin.lua")
         AddCSLuaFile("rd_datapad/plugins/commands/core/cl_plugin.lua")

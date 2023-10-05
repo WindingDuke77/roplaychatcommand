@@ -105,8 +105,21 @@ hook.Add("Think", "rpcc.Think", function ()
 
     ClientConfigCompare = ClientConfig
     nextCheck = CurTime() + wait
+    local clientTable = compressTable(ClientConfig)
+    if clientTable[2] == nil then
+        return
+    end
+
+    if clientTable[2] == 0 then 
+        return 
+    end
+
+    if clientTable[2] > 65535 then
+        return
+    end
+
     net.Start("rpcc.ClientConfig")
-        net.WriteInt(compressTable(ClientConfig)[2], 32)
-        net.WriteData(compressTable(ClientConfig)[1])
+        net.WriteInt(clientTable[2], 32)
+        net.WriteData(clientTable[1])
     net.Broadcast()
 end)

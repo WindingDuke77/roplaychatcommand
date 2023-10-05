@@ -110,9 +110,14 @@ hook.Add("Think", "rpcc.Think", function ()
         return
     end
 
+    if type(clientTable[2]) != "number" then
+        return
+    end
+
     if clientTable[2] == 0 then 
         return 
     end
+
 
     if clientTable[2] > 65535 then
         return

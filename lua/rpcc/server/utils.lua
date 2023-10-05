@@ -82,11 +82,36 @@ local function compressTable(table)
     return returnTable, #returnTable or 0
 end
 
+local function checkTable()
+    local clientTable = compressTable(ClientConfig)
+    if clientTable[2] == nil then
+        return false 
+    end
+
+    if type(clientTable[2]) != "number" then
+        return false 
+    end
+
+    if clientTable[2] == 0 then 
+        return false
+    end
+
+
+    if clientTable[2] > 65535 then
+        return false
+    end
+
+    return clientTable
+end
+
 // Send the Client Config to the Client
 hook.Add("PlayerInitialSpawn", "rpcc.PlayerInitialSpawn", function(ply)
+    local clientTable = checkTable()
+    if !clientTable then return end
+
     net.Start("rpcc.ClientConfig")
-        net.WriteInt(compressTable(ClientConfigCompare)[2], 32)
-        net.WriteData(compressTable(ClientConfigCompare)[1])
+        net.WriteInt(clientTable[2], 32)
+        net.WriteData(clientTable[1])
     net.Send(ply)
 end)
 
@@ -105,23 +130,9 @@ hook.Add("Think", "rpcc.Think", function ()
 
     ClientConfigCompare = ClientConfig
     nextCheck = CurTime() + wait
-    local clientTable = compressTable(ClientConfig)
-    if clientTable[2] == nil then
-        return
-    end
 
-    if type(clientTable[2]) != "number" then
-        return
-    end
-
-    if clientTable[2] == 0 then 
-        return 
-    end
-
-
-    if clientTable[2] > 65535 then
-        return
-    end
+    local clientTable = checkTable()
+    if !clientTable then return end
 
     net.Start("rpcc.ClientConfig")
         net.WriteInt(clientTable[2], 32)

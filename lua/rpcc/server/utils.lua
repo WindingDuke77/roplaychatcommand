@@ -78,6 +78,7 @@ ClientConfigCompare = GetClientConfig()
 util.AddNetworkString("rpcc.ClientConfig")
 
 local function compressTable(table)
+    if !table then return nil, nil end
     local returnTable = util.Compress(util.TableToJSON(table))
     return returnTable, #returnTable or 0
 end
